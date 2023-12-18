@@ -5,11 +5,16 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/veysoff/golang-crud-postgres-server/controllers"
 	"github.com/veysoff/golang-crud-postgres-server/initializers"
+	"github.com/veysoff/golang-crud-postgres-server/routes"
 )
 
 var (
 	server *gin.Engine
+
+	TaskController      controllers.TaskController
+	TaskRouteController routes.TaskRouteController
 )
 
 func init() {
@@ -19,6 +24,9 @@ func init() {
 	}
 
 	initializers.ConnectDB(&config)
+
+	TaskController = controllers.NewTaskController(initializers.DB)
+	TaskRouteController = routes.NewRouteTaskController(TaskController)
 
 	server = gin.Default()
 }
@@ -34,6 +42,8 @@ func main() {
 		message := "Server is runing. Golang with Gorm and Postgres"
 		ctx.JSON(http.StatusOK, gin.H{"status": "success", "message": message})
 	})
+
+	TaskRouteController.TaskRoute(router)
 
 	log.Fatal(server.Run(":" + config.ServerPort))
 }
