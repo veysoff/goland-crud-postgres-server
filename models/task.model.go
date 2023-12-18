@@ -26,6 +26,7 @@ type CreateTaskRequest struct {
 }
 
 type UpdateTask struct {
+	ID          uuid.UUID `json:"id,omitempty"`
 	Title       string    `json:"title,omitempty"`
 	Description string    `json:"description,omitempty"`
 	IsDone      bool      `json:"isdone,omitempty"`

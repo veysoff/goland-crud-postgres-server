@@ -53,7 +53,6 @@ func (tc *TaskController) CreateTask(ctx *gin.Context) {
 
 // [...] Update Handler
 func (tc *TaskController) UpdateTask(ctx *gin.Context) {
-	taskId := ctx.Param("taskId")
 	//currentUser := ctx.MustGet("currentUser").(models.User)
 
 	var payload *models.UpdateTask
@@ -62,7 +61,7 @@ func (tc *TaskController) UpdateTask(ctx *gin.Context) {
 		return
 	}
 	var updatedTask models.Task
-	result := tc.DB.First(&updatedTask, "id = ?", taskId)
+	result := tc.DB.First(&updatedTask, "id = ?", payload.ID)
 	if result.Error != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{"status": "fail", "message": "No post with that title exists"})
 		return
@@ -114,6 +113,7 @@ func (tc *TaskController) FindTasks(ctx *gin.Context) {
 }
 
 func (pc *TaskController) DeleteTask(ctx *gin.Context) {
+
 	taskId := ctx.Param("taskId")
 
 	result := pc.DB.Delete(&models.Task{}, "id = ?", taskId)

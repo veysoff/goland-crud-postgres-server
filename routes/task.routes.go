@@ -20,7 +20,7 @@ func (pc *TaskRouteController) TaskRoute(rg *gin.RouterGroup) {
 	// router.Use(middleware.DeserializeUser())
 	router.POST("/", pc.taskController.CreateTask)
 	router.GET("/", pc.taskController.FindTasks)
-	router.PUT("/:taskId", pc.taskController.UpdateTask)
+	router.PUT("/", pc.taskController.UpdateTask)
 	router.GET("/:taskId", pc.taskController.FindTaskById)
 	router.DELETE("/:taskId", pc.taskController.DeleteTask)
 }
