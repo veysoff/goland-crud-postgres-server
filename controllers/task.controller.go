@@ -54,7 +54,7 @@ func (tc *TaskController) CreateTask(ctx *gin.Context) {
 // [...] Update Handler
 func (tc *TaskController) UpdateTask(ctx *gin.Context) {
 	taskId := ctx.Param("taskId")
-	currentUser := ctx.MustGet("currentUser").(models.User)
+	//currentUser := ctx.MustGet("currentUser").(models.User)
 
 	var payload *models.UpdateTask
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
@@ -72,9 +72,9 @@ func (tc *TaskController) UpdateTask(ctx *gin.Context) {
 		Title:       payload.Title,
 		Description: payload.Description,
 		IsDone:      payload.IsDone,
-		User:        currentUser.ID,
-		CreatedAt:   updatedTask.CreatedAt,
-		UpdatedAt:   now,
+		//User:        currentUser.ID,
+		CreatedAt: updatedTask.CreatedAt,
+		UpdatedAt: now,
 	}
 
 	tc.DB.Model(&updatedTask).Updates(taskToUpdate)
@@ -83,7 +83,7 @@ func (tc *TaskController) UpdateTask(ctx *gin.Context) {
 }
 
 func (pc *TaskController) FindTaskById(ctx *gin.Context) {
-	taskId := ctx.Param("postId")
+	taskId := ctx.Param("taskId")
 
 	var task models.Task
 	result := pc.DB.First(&task, "id = ?", taskId)
@@ -114,7 +114,7 @@ func (tc *TaskController) FindTasks(ctx *gin.Context) {
 }
 
 func (pc *TaskController) DeleteTask(ctx *gin.Context) {
-	postId := ctx.Param("postId")
+	postId := ctx.Param("taskId")
 
 	result := pc.DB.Delete(&models.Task{}, "id = ?", postId)
 
