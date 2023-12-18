@@ -81,11 +81,10 @@ func (tc *TaskController) UpdateTask(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"status": "success", "data": updatedTask})
 }
 
-func (pc *TaskController) FindTaskById(ctx *gin.Context) {
-	taskId := ctx.Param("taskId")
-
+func (tc *TaskController) FindTaskById(ctx *gin.Context) {
+	taskId := ctx.Param("id")
 	var task models.Task
-	result := pc.DB.First(&task, "id = ?", taskId)
+	result := tc.DB.First(&task, "id = ?", taskId)
 	if result.Error != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{"status": "fail", "message": "No post with that title exists"})
 		return
@@ -112,14 +111,14 @@ func (tc *TaskController) FindTasks(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"status": "success", "results": len(tasks), "data": tasks})
 }
 
-func (pc *TaskController) DeleteTask(ctx *gin.Context) {
+func (tc *TaskController) DeleteTask(ctx *gin.Context) {
 	var payload *models.DeleteTask
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
 		return
 	}
 
-	result := pc.DB.Delete(&models.Task{}, "id = ?", payload.ID)
+	result := tc.DB.Delete(&models.Task{}, "id = ?", payload.ID)
 
 	if result.Error != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{"status": "fail", "message": "No task with that id exists"})

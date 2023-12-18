@@ -13,14 +13,14 @@ func NewRouteTaskController(taskController controllers.TaskController) TaskRoute
 	return TaskRouteController{taskController}
 }
 
-func (pc *TaskRouteController) TaskRoute(rg *gin.RouterGroup) {
+func (tc *TaskRouteController) TaskRoute(rg *gin.RouterGroup) {
 
 	router := rg.Group("tasks")
 	// TODO add such middleware
 	// router.Use(middleware.DeserializeUser())
-	router.POST("/", pc.taskController.CreateTask)
-	router.GET("/", pc.taskController.FindTasks)
-	router.PUT("/", pc.taskController.UpdateTask)
-	router.GET("/:taskId", pc.taskController.FindTaskById)
-	router.DELETE("/", pc.taskController.DeleteTask)
+	router.POST("/", tc.taskController.CreateTask)
+	router.GET("/", tc.taskController.FindTasks)
+	router.PUT("/", tc.taskController.UpdateTask)
+	router.GET("/:taskId", tc.taskController.FindTaskById)
+	router.DELETE("/", tc.taskController.DeleteTask)
 }
