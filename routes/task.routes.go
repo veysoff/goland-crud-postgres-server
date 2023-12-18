@@ -22,5 +22,5 @@ func (pc *TaskRouteController) TaskRoute(rg *gin.RouterGroup) {
 	router.GET("/", pc.taskController.FindTasks)
 	router.PUT("/", pc.taskController.UpdateTask)
 	router.GET("/:taskId", pc.taskController.FindTaskById)
-	router.DELETE("/:taskId", pc.taskController.DeleteTask)
+	router.DELETE("/", pc.taskController.DeleteTask)
 }

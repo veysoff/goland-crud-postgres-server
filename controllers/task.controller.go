@@ -113,10 +113,13 @@ func (tc *TaskController) FindTasks(ctx *gin.Context) {
 }
 
 func (pc *TaskController) DeleteTask(ctx *gin.Context) {
+	var payload *models.DeleteTask
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
+		return
+	}
 
-	taskId := ctx.Param("taskId")
-
-	result := pc.DB.Delete(&models.Task{}, "id = ?", taskId)
+	result := pc.DB.Delete(&models.Task{}, "id = ?", payload.ID)
 
 	if result.Error != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{"status": "fail", "message": "No task with that id exists"})
