@@ -114,12 +114,12 @@ func (tc *TaskController) FindTasks(ctx *gin.Context) {
 }
 
 func (pc *TaskController) DeleteTask(ctx *gin.Context) {
-	postId := ctx.Param("taskId")
+	taskId := ctx.Param("taskId")
 
-	result := pc.DB.Delete(&models.Task{}, "id = ?", postId)
+	result := pc.DB.Delete(&models.Task{}, "id = ?", taskId)
 
 	if result.Error != nil {
-		ctx.JSON(http.StatusNotFound, gin.H{"status": "fail", "message": "No task with that title exists"})
+		ctx.JSON(http.StatusNotFound, gin.H{"status": "fail", "message": "No task with that id exists"})
 		return
 	}
 
