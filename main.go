@@ -15,6 +15,9 @@ var (
 
 	TaskController      controllers.TaskController
 	TaskRouteController routes.TaskRouteController
+
+	AuthentificationController      controllers.AuthentificationController
+	AuthentificationRouteController routes.AuthentificationRouteController
 )
 
 func init() {
@@ -27,6 +30,9 @@ func init() {
 
 	TaskController = controllers.NewTaskController(initializers.DB)
 	TaskRouteController = routes.NewRouteTaskController(TaskController)
+
+	AuthentificationController = controllers.NewAuthController(initializers.DB)
+	AuthentificationRouteController = routes.NewRouteAuthentificationController(AuthentificationController)
 
 	server = gin.Default()
 }
@@ -44,6 +50,7 @@ func main() {
 	})
 
 	TaskRouteController.TaskRoute(router)
+	AuthentificationRouteController.AuthRoute(router)
 
 	log.Fatal(server.Run(":" + config.ServerPort))
 }
